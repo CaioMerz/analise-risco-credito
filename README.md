@@ -1,4 +1,4 @@
-﻿# AnÃ¡lise de Risco de CrÃ©dito com Score ExplicÃ¡vel
+# AnÃ¡lise de Risco de CrÃ©dito com Score ExplicÃ¡vel
 (Python, SQL e SQLite)
 
 No Brasil, mais de 80 milhÃµes de pessoas estÃ£o inadimplentes. Decidir quem
