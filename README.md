@@ -77,36 +77,36 @@ analise-risco-credito/
 - AnÃ¡lise por renda (`MonthlyIncome` em faixas, incluindo casos sem renda
   informada).
 
-## 7. Lógica do score de risco
-O score final é uma regra simples e interpretável de segmentação de risco: a pontuação total é a soma dos pontos de cada critério abaixo.
+## 7. LÃ³gica do score de risco
+O score final Ã© uma regra simples e interpretÃ¡vel de segmentaÃ§Ã£o de risco: a pontuaÃ§Ã£o total Ã© a soma dos pontos de cada critÃ©rio abaixo.
 
-1. **Histórico de atrasos graves** (NumberOfTimes90DaysLate)
-   - == 0 → 0 pontos  
-   - == 1 → 2 pontos  
-   - >= 2 → 3 pontos  
+1. **HistÃ³rico de atrasos graves** (`NumberOfTimes90DaysLate`)
+   - `== 0` â†’ 0 pontos  
+   - `== 1` â†’ 2 pontos  
+   - `>= 2` â†’ 3 pontos  
 
-2. **Utilização de crédito** (RevolvingUtilizationOfUnsecuredLines)
-   - <= 0.50 → 0 pontos  
-   - > 0.50 e <= 1.00 → 1 ponto  
-   - > 1.00 → 2 pontos  
+2. **UtilizaÃ§Ã£o de crÃ©dito** (`RevolvingUtilizationOfUnsecuredLines`)
+   - `<= 0.50` â†’ 0 pontos  
+   - `> 0.50 e <= 1.00` â†’ 1 ponto  
+   - `> 1.00` â†’ 2 pontos  
 
-3. **Renda mensal** (MonthlyIncome)
-   - isna() (sem renda informada) → 1 ponto  
-   - > 5000 → 0 pontos  
-   - >= 2000 e <= 5000 → 1 ponto  
-   - < 2000 → 2 pontos  
-   > *Clientes sem renda informada recebem 1 ponto pela ausência da informação, não pelo comportamento. Na base, esse grupo teve inadimplência menor que as faixas de renda baixa, mas a falta de dado foi tratada de forma conservadora.*
+3. **Renda mensal** (`MonthlyIncome`)
+   - `isna()` (sem renda informada) â†’ 1 ponto  
+   - `> 5000` â†’ 0 pontos  
+   - `>= 2000 e <= 5000` â†’ 1 ponto  
+   - `< 2000` â†’ 2 pontos  
+   > *Clientes sem renda informada recebem 1 ponto pela ausÃªncia da informaÃ§Ã£o, nÃ£o pelo comportamento. Na base, esse grupo teve inadimplÃªncia menor que as faixas de renda baixa â€” mas a falta de dado foi tratada de forma conservadora.*
 
 4. **Idade** (`age`)
-   - >= 18 e <= 29 → 1 ponto  
-   - >= 30 → 0 pontos  
+   - `>= 18 e <= 29` â†’ 1 ponto  
+   - `>= 30` â†’ 0 pontos  
 
-**Classificação final:**
+**ClassificaÃ§Ã£o final:**
 - **baixo risco**: score total de **0 a 2**
-- **médio risco**: score total de **3 a 5**
+- **mÃ©dio risco**: score total de **3 a 5**
 - **alto risco**: score total de **6 ou mais**
 
-Resultado salvo em SQLite na tabela credito_score.
+Resultado salvo em SQLite na tabela `credito_score`.
 
 ## 8. Principais resultados
 - Taxa geral de inadimplÃªncia da base: **6,7%**.
@@ -175,5 +175,3 @@ No Windows, vocÃª pode usar `py` no lugar de `python`.
 4. Avaliar a importÃ¢ncia das variÃ¡veis para a separaÃ§Ã£o de risco.
 5. Testar novas segmentaÃ§Ãµes de variÃ¡veis e faixas de corte.
 6. Criar um dashboard interativo para exploraÃ§Ã£o dos resultados.
-
-
