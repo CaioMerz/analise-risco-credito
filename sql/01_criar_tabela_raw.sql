@@ -1,0 +1,1 @@
+-- SQL para criar a tabela de dados brutos (raw).
