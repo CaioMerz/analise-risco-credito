@@ -1,15 +1,15 @@
-# AnÃ¡lise de Risco de CrÃ©dito com Score ExplicÃ¡vel
+﻿# Análise de Risco de Crédito com Score Explicável
 (Python, SQL e SQLite)
 
-No Brasil, mais de 80 milhÃµes de pessoas estÃ£o inadimplentes. Decidir quem
-recebe crÃ©dito â€” e em que condiÃ§Ãµes â€” Ã© um dos problemas mais concretos do
+No Brasil, mais de 80 milhões de pessoas estão inadimplentes. Decidir quem
+recebe crédito — e em que condições — é um dos problemas mais concretos do
 mercado financeiro. Este projeto aborda exatamente isso.
 
-## 1. VisÃ£o geral e objetivo
-Projeto desenvolvido para portfÃ³lio com foco em vagas no mercado financeiro,
-fintechs e Ã¡reas de risco de crÃ©dito. O problema Ã© direto: identificar clientes
-com maior probabilidade de nÃ£o pagar. A abordagem tambÃ©m â€” um score simples,
-baseado em regras claras, fÃ¡cil de explicar e de aplicar na prÃ¡tica.
+## 1. Visão geral e objetivo
+Projeto desenvolvido para portfólio com foco em vagas no mercado financeiro,
+fintechs e áreas de risco de crédito. O problema é direto: identificar clientes
+com maior probabilidade de não pagar. A abordagem também — um score simples,
+baseado em regras claras, fácil de explicar e de aplicar na prática.
 
 ## 2. Tecnologias utilizadas
 - Python 3
@@ -53,98 +53,98 @@ analise-risco-credito/
 ```
 
 ## 4. Base de dados
-- Fonte: dataset pÃºblico do Kaggle (arquivo `cs-training.csv`)
+- Fonte: dataset público do Kaggle (arquivo `cs-training.csv`)
 - Caminho no projeto: `dados/brutos/cs-training.csv`
 - Tabela principal no banco: `credito_raw`
-- VariÃ¡vel-alvo de inadimplÃªncia: `SeriousDlqin2yrs`
+- Variável-alvo de inadimplência: `SeriousDlqin2yrs`
 
 ## 5. Etapas do projeto
-1. ImportaÃ§Ã£o do CSV para SQLite.
-2. ExploraÃ§Ã£o inicial da base para validar estrutura, tipos de dados e
+1. Importação do CSV para SQLite.
+2. Exploração inicial da base para validar estrutura, tipos de dados e
    valores faltantes.
-3. AnÃ¡lises de inadimplÃªncia por idade, atrasos graves, utilizaÃ§Ã£o de
-   crÃ©dito e renda.
-4. ConstruÃ§Ã£o do score de risco com regras de negÃ³cio.
-5. ClassificaÃ§Ã£o final em baixo, mÃ©dio e alto risco.
-6. GeraÃ§Ã£o de resumo tabular e visual da classificaÃ§Ã£o final.
+3. Análises de inadimplência por idade, atrasos graves, utilização de
+   crédito e renda.
+4. Construção do score de risco com regras de negócio.
+5. Classificação final em baixo, médio e alto risco.
+6. Geração de resumo tabular e visual da classificação final.
 
-## 6. Principais anÃ¡lises realizadas
-- Taxa geral de inadimplÃªncia da base (mÃ©dia de `SeriousDlqin2yrs`).
-- AnÃ¡lise por idade (`age` x taxa de inadimplÃªncia).
-- AnÃ¡lise por atrasos graves (`NumberOfTimes90DaysLate` x taxa de inadimplÃªncia).
-- AnÃ¡lise por utilizaÃ§Ã£o de crÃ©dito (`RevolvingUtilizationOfUnsecuredLines`
+## 6. Principais análises realizadas
+- Taxa geral de inadimplência da base (média de `SeriousDlqin2yrs`).
+- Análise por idade (`age` x taxa de inadimplência).
+- Análise por atrasos graves (`NumberOfTimes90DaysLate` x taxa de inadimplência).
+- Análise por utilização de crédito (`RevolvingUtilizationOfUnsecuredLines`
   em faixas).
-- AnÃ¡lise por renda (`MonthlyIncome` em faixas, incluindo casos sem renda
+- Análise por renda (`MonthlyIncome` em faixas, incluindo casos sem renda
   informada).
 
-## 7. LÃ³gica do score de risco
-O score final Ã© uma regra simples e interpretÃ¡vel de segmentaÃ§Ã£o de risco: a pontuaÃ§Ã£o total Ã© a soma dos pontos de cada critÃ©rio abaixo.
+## 7. Lógica do score de risco
+O score final é uma regra simples e interpretável de segmentação de risco: a pontuação total é a soma dos pontos de cada critério abaixo.
 
-1. **HistÃ³rico de atrasos graves** (`NumberOfTimes90DaysLate`)
-   - `== 0` â†’ 0 pontos  
-   - `== 1` â†’ 2 pontos  
-   - `>= 2` â†’ 3 pontos  
+1. **Histórico de atrasos graves** (`NumberOfTimes90DaysLate`)
+   - `== 0` → 0 pontos  
+   - `== 1` → 2 pontos  
+   - `>= 2` → 3 pontos  
 
-2. **UtilizaÃ§Ã£o de crÃ©dito** (`RevolvingUtilizationOfUnsecuredLines`)
-   - `<= 0.50` â†’ 0 pontos  
-   - `> 0.50 e <= 1.00` â†’ 1 ponto  
-   - `> 1.00` â†’ 2 pontos  
+2. **Utilização de crédito** (`RevolvingUtilizationOfUnsecuredLines`)
+   - `<= 0.50` → 0 pontos  
+   - `> 0.50 e <= 1.00` → 1 ponto  
+   - `> 1.00` → 2 pontos  
 
 3. **Renda mensal** (`MonthlyIncome`)
-   - `isna()` (sem renda informada) â†’ 1 ponto  
-   - `> 5000` â†’ 0 pontos  
-   - `>= 2000 e <= 5000` â†’ 1 ponto  
-   - `< 2000` â†’ 2 pontos  
-   > *Clientes sem renda informada recebem 1 ponto pela ausÃªncia da informaÃ§Ã£o, nÃ£o pelo comportamento. Na base, esse grupo teve inadimplÃªncia menor que as faixas de renda baixa â€” mas a falta de dado foi tratada de forma conservadora.*
+   - `isna()` (sem renda informada) → 1 ponto  
+   - `> 5000` → 0 pontos  
+   - `>= 2000 e <= 5000` → 1 ponto  
+   - `< 2000` → 2 pontos  
+   > *Clientes sem renda informada recebem 1 ponto pela ausência da informação, não pelo comportamento. Na base, esse grupo teve inadimplência menor que as faixas de renda baixa — mas a falta de dado foi tratada de forma conservadora.*
 
 4. **Idade** (`age`)
-   - `>= 18 e <= 29` â†’ 1 ponto  
-   - `>= 30` â†’ 0 pontos  
+   - `>= 18 e <= 29` → 1 ponto  
+   - `>= 30` → 0 pontos  
 
-**ClassificaÃ§Ã£o final:**
+**Classificação final:**
 - **baixo risco**: score total de **0 a 2**
-- **mÃ©dio risco**: score total de **3 a 5**
+- **médio risco**: score total de **3 a 5**
 - **alto risco**: score total de **6 ou mais**
 
 Resultado salvo em SQLite na tabela `credito_score`.
 
 ## 8. Principais resultados
-- Taxa geral de inadimplÃªncia da base: **6,7%**.
-- **Baixo risco**: inadimplÃªncia de **4,2%**.
-- **MÃ©dio risco**: inadimplÃªncia de **26,8%**.
-- **Alto risco**: inadimplÃªncia de **54,1%**.
+- Taxa geral de inadimplência da base: **6,7%**.
+- **Baixo risco**: inadimplência de **4,2%**.
+- **Médio risco**: inadimplência de **26,8%**.
+- **Alto risco**: inadimplência de **54,1%**.
 
-O score separa bem os trÃªs grupos â€” e os padrÃµes por idade, atrasos,
-utilizaÃ§Ã£o de crÃ©dito e renda sÃ£o consistentes com o que se espera
-num problema real de crÃ©dito.
+O score separa bem os três grupos — e os padrões por idade, atrasos,
+utilização de crédito e renda são consistentes com o que se espera
+num problema real de crédito.
 
 ## Contexto brasileiro
-O dataset Ã© americano por uma razÃ£o prÃ¡tica: no Brasil, dados individuais
-de crÃ©dito nÃ£o sÃ£o disponibilizados publicamente por conta do sigilo
-bancÃ¡rio e da LGPD. Mesmo assim, os padrÃµes que o projeto analisa fazem
+O dataset é americano por uma razão prática: no Brasil, dados individuais
+de crédito não são disponibilizados publicamente por conta do sigilo
+bancário e da LGPD. Mesmo assim, os padrões que o projeto analisa fazem
 total sentido no contexto nacional.
 
-- Segundo a PEIC/CNC (fev/2025), **76,4%** das famÃ­lias estavam endividadas
+- Segundo a PEIC/CNC (fev/2025), **76,4%** das famílias estavam endividadas
   e **28,6%** tinham contas em atraso.
-- O Mapa da InadimplÃªncia da Serasa (jan/2026) registrou **81,3 milhÃµes**
-  de consumidores inadimplentes, com **R$ 524 bilhÃµes** em dÃ©bitos ativos.
-- Os dÃ©bitos se concentram em bancos/cartÃµes (26,3%), contas bÃ¡sicas (22,0%)
-  e financeiras (19,8%) â€” exatamente as frentes que as variÃ¡veis do score
+- O Mapa da Inadimplência da Serasa (jan/2026) registrou **81,3 milhões**
+  de consumidores inadimplentes, com **R$ 524 bilhões** em débitos ativos.
+- Os débitos se concentram em bancos/cartões (26,3%), contas básicas (22,0%)
+  e financeiras (19,8%) — exatamente as frentes que as variáveis do score
   buscam capturar.
 
-## VisualizaÃ§Ãµes principais
-![InadimplÃªncia por idade](graficos/inadimplencia_por_idade.png)
+## Visualizações principais
+![Inadimplência por idade](graficos/inadimplencia_por_idade.png)
 
-![InadimplÃªncia por atrasos graves](graficos/inadimplencia_por_atrasos_90dias.png)
+![Inadimplência por atrasos graves](graficos/inadimplencia_por_atrasos_90dias.png)
 
-![InadimplÃªncia por utilizaÃ§Ã£o de crÃ©dito](graficos/inadimplencia_por_utilizacao_credito.png)
+![Inadimplência por utilização de crédito](graficos/inadimplencia_por_utilizacao_credito.png)
 
-![InadimplÃªncia por renda](graficos/inadimplencia_por_renda.png)
+![Inadimplência por renda](graficos/inadimplencia_por_renda.png)
 
-![Taxa de inadimplÃªncia por classificaÃ§Ã£o do score](graficos/taxa_inadimplencia_por_classificacao_score.png)
+![Taxa de inadimplência por classificação do score](graficos/taxa_inadimplencia_por_classificacao_score.png)
 
 ## 9. Como executar o projeto
-1. Instale as dependÃªncias:
+1. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
@@ -166,12 +166,12 @@ python src/resumo_score_risco.py
 python src/executar_pipeline.py
 ```
 
-No Windows, vocÃª pode usar `py` no lugar de `python`.
+No Windows, você pode usar `py` no lugar de `python`.
 
-## 10. PrÃ³ximos passos
-1. Evoluir o dicionÃ¡rio de dados em `dados/dicionario/descricao_variaveis.md`.
+## 10. Próximos passos
+1. Evoluir o dicionário de dados em `dados/dicionario/descricao_variaveis.md`.
 2. Adicionar testes automatizados para validar as regras do score.
-3. Testar regressÃ£o logÃ­stica como benchmark em relaÃ§Ã£o ao score por regras.
-4. Avaliar a importÃ¢ncia das variÃ¡veis para a separaÃ§Ã£o de risco.
-5. Testar novas segmentaÃ§Ãµes de variÃ¡veis e faixas de corte.
-6. Criar um dashboard interativo para exploraÃ§Ã£o dos resultados.
+3. Testar regressão logística como benchmark em relação ao score por regras.
+4. Avaliar a importância das variáveis para a separação de risco.
+5. Testar novas segmentações de variáveis e faixas de corte.
+6. Criar um dashboard interativo para exploração dos resultados.
